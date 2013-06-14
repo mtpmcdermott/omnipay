@@ -59,6 +59,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('customerId', $value);
     }
 
+    public function setDuplicateWindow($value)
+    {
+        return $this->setParameter('duplicateWindow', $value);
+    }
+
+    public function getDuplicateWindow()
+    {
+        return $this->getParameter('duplicateWindow');
+    }
+
     protected function getBaseData()
     {
         $data = array();
@@ -70,6 +80,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $data['x_delim_char'] = ',';
         $data['x_encap_char'] = '|';
         $data['x_relay_response'] = 'FALSE';
+        $data['x_duplicate_window'] = $this->getDuplicateWindow();
 
         return $data;
     }
