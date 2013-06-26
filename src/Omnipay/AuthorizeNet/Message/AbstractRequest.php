@@ -88,7 +88,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     protected function getBillingData()
     {
         $data = array();
-        $data['x_amount'] = $this->getAmountDecimal();
+        $data['x_amount'] = $this->getAmount();
         $data['x_invoice_num'] = $this->getTransactionId();
         $data['x_description'] = $this->getDescription();
 
