@@ -39,6 +39,7 @@ class ProGateway extends AbstractGateway
             'testMode' => false,
             'orderId' => '',
             'customerId' => '',
+            'comment2' => '',
         );
     }
 
@@ -100,6 +101,16 @@ class ProGateway extends AbstractGateway
     public function setCustomerId($value)
     {
         return $this->setParameter('customerId', $value);
+    }
+
+    public function getComment2()
+    {
+        return $this->getParameter('comment2');
+    }
+
+    public function setComment2($value)
+    {
+        return $this->setParameter('comment2', $value);
     }
 
     public function authorize(array $parameters = array())

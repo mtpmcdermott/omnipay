@@ -22,6 +22,12 @@ class AuthorizeRequest extends AbstractRequest
     protected $testEndpoint = 'https://pilot-payflowpro.paypal.com';
     protected $action = 'A';
 
+    public function initialize(array $parameters = array())
+    {
+        $this->httpClient->getQuery()->useUrlEncoding(false);
+        return parent::initialize($parameters);
+    }
+
     public function getUsername()
     {
         return $this->getParameter('username');
@@ -82,6 +88,16 @@ class AuthorizeRequest extends AbstractRequest
         return $this->setParameter('customerId', $value);
     }
 
+    public function getComment2()
+    {
+        return $this->getParameter('comment2');
+    }
+
+    public function setComment2($value)
+    {
+        return $this->setParameter('comment2', $value);
+    }
+
     protected function getBaseData()
     {
         $data = array();
@@ -103,6 +119,7 @@ class AuthorizeRequest extends AbstractRequest
         $data['TENDER'] = 'C';
         $data['AMT'] = $this->getAmount();
         $data['COMMENT1'] = $this->getDescription();
+        $data['COMMENT2'] = $this->getComment2();
 
         $data['ACCT'] = $this->getCard()->getNumber();
         $data['EXPDATE'] = $this->getCard()->getExpiryDate('my');
@@ -117,7 +134,7 @@ class AuthorizeRequest extends AbstractRequest
         $data['BILLTOCITY'] = $this->getCard()->getBillingCity();
         $data['BILLTOSTATE'] = $this->getCard()->getBillingState();
         $data['BILLTOZIP'] = $this->getCard()->getBillingPostcode();
-        $data['BILLTOCOUNTRY'] = self::getCountryCode($this->getCard()->getBillingCountry());
+        $data['BILLTOCOUNTRY'] = $this->getCard()->getBillingCountry();
 
         $data['SHIPTOFIRSTNAME'] = $this->getCard()->getShippingFirstName();
         $data['SHIPTOLASTNAME'] = $this->getCard()->getShippingLastName();
@@ -125,7 +142,7 @@ class AuthorizeRequest extends AbstractRequest
         $data['SHIPTOCITY'] = $this->getCard()->getShippingCity();
         $data['SHIPTOSTATE'] = $this->getCard()->getShippingState();
         $data['SHIPTOZIP'] = $this->getCard()->getShippingPostcode();
-        $data['SHIPTOCOUNTRY'] = self::getCountryCode($this->getCard()->getShippingCountry());
+        $data['SHIPTOCOUNTRY'] = $this->getCard()->getShippingCountry();
 
         $data['ORDERID'] = $this->getOrderId();
         $data['CUSTREF'] = $this->getCustomerId();
@@ -143,14 +160,5 @@ class AuthorizeRequest extends AbstractRequest
     protected function getEndpoint()
     {
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
-    }
-
-    protected static function getCountryCode($countryAbbr) {
-        $countries = array(
-            'US' => '840',
-            'UK' => '826',
-            'CA' => '124',
-        );
-        return isset($countries[$countryAbbr]) ? $countries[$countryAbbr] : false;
     }
 }
