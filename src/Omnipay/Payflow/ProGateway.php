@@ -37,6 +37,8 @@ class ProGateway extends AbstractGateway
             'vendor' => '',
             'partner' => '',
             'testMode' => false,
+            'orderId' => '',
+            'customerId' => '',
         );
     }
 
@@ -78,6 +80,26 @@ class ProGateway extends AbstractGateway
     public function setPartner($value)
     {
         return $this->setParameter('partner', $value);
+    }
+
+    public function getOrderId()
+    {
+        return $this->getParameter('orderId');
+    }
+
+    public function setOrderId($value)
+    {
+        return $this->setParameter('orderId', $value);
+    }
+
+    public function getCustomerId()
+    {
+        return $this->getParameter('customerId');
+    }
+
+    public function setCustomerId($value)
+    {
+        return $this->setParameter('customerId', $value);
     }
 
     public function authorize(array $parameters = array())
