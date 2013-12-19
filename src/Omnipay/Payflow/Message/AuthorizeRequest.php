@@ -145,7 +145,7 @@ class AuthorizeRequest extends AbstractRequest
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
 
-    protected static getCountryCode($countryAbbr) {
+    protected static function getCountryCode($countryAbbr) {
         $countries = array(
             'US' => '840',
             'UK' => '826',
