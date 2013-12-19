@@ -22,12 +22,6 @@ class AuthorizeRequest extends AbstractRequest
     protected $testEndpoint = 'https://pilot-payflowpro.paypal.com';
     protected $action = 'A';
 
-    public function initialize(array $parameters = array())
-    {
-        $this->httpClient->getQuery()->useUrlEncoding(false);
-        return parent::initialize($parameters);
-    }
-
     public function getUsername()
     {
         return $this->getParameter('username');
@@ -152,7 +146,9 @@ class AuthorizeRequest extends AbstractRequest
 
     public function send()
     {
-        $httpResponse = $this->httpClient->post($this->getEndpoint(), null, $this->getData())->send();
+        $request = $this->httpClient->post($this->getEndpoint(), null, $this->getData());
+        $request->getQuery()->useUrlEncoding(false);
+        $httpResponse = $request->send();
 
         return $this->response = new Response($this, $httpResponse->getBody());
     }
