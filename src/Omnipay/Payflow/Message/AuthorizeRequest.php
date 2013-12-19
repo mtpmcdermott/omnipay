@@ -128,7 +128,7 @@ class AuthorizeRequest extends AbstractRequest
         $data['SHIPTOCOUNTRY'] = self::getCountryCode($this->getCard()->getShippingCountry());
 
         $data['ORDERID'] = $this->getOrderId();
-        $data['CUSTREF'] =>$this->getCustomerId();
+        $data['CUSTREF'] = $this->getCustomerId();
 
         return $data;
     }
