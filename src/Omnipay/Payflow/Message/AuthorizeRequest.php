@@ -107,7 +107,10 @@ class AuthorizeRequest extends AbstractRequest
     public function getData()
     {
         $this->validate('amount', 'card');
-        $this->getCard()->validate();
+
+        if (!$this->getTransactionReference()) {
+            $this->getCard()->validate();
+        }
 
         $data = $this->getBaseData();
         $data['TENDER'] = 'C';
@@ -115,9 +118,13 @@ class AuthorizeRequest extends AbstractRequest
         $data['COMMENT1'] = $this->getDescription();
         $data['COMMENT2'] = $this->getComment2();
 
-        $data['ACCT'] = $this->getCard()->getNumber();
-        $data['EXPDATE'] = $this->getCard()->getExpiryDate('my');
-        $data['CVV2'] = $this->getCard()->getCvv();
+        if (!$this->getTransactionReference()) {
+            $data['ACCT'] = $this->getCard()->getNumber();
+            $data['EXPDATE'] = $this->getCard()->getExpiryDate('my');
+            $data['CVV2'] = $this->getCard()->getCvv();
+        } else {
+            $data['ORIGID'] = $this->getTransactionReference();
+        }
 
         $data['EMAIL'] = $this->getCard()->getEmail();
 
@@ -146,7 +153,7 @@ class AuthorizeRequest extends AbstractRequest
 
     public function send()
     {
-        $request = $this->httpClient->post($this->getEndpoint(), null, $this->getData());
+        $request = $this->httpClient->createRequest('POST', $this->getEndpoint(), null, $this->getData());
         $request->getQuery()->useUrlEncoding(false);
         $httpResponse = $request->send();
 
