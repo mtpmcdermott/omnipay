@@ -101,6 +101,10 @@ class AuthorizeRequest extends AbstractRequest
         $data['VENDOR'] = $this->getVendor();
         $data['PARTNER'] = $this->getPartner();
 
+        if ($this->getCurrency()) {
+            $data['CURRENCY'] = $this->getCurrency();
+        }
+
         return $data;
     }
 
