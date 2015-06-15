@@ -1,5 +1,5 @@
 {
-    "name": "piotr-m/omnipay",
+    "name": "mtpmcdermott/omnipay",
     "type": "library",
     "description": "Omnipay is a framework agnostic multi-gateway payment processing library",
     "keywords": [
